@@ -1,4 +1,4 @@
-/* Implementation 4 of BiLouvain Method dated 28.01.2017
+/* Implementation 3 of BiLouvain Method dated 28.01.2017
    Author: Gautam Khanna  */
 
 #include<bits/stdc++.h>
@@ -24,8 +24,8 @@ struct cluster
 
 int main()
 {
-	//freopen("in.txt","r",stdin);
-	//freopen("out.txt","w",stdout);
+	freopen("in.txt","r",stdin);
+	freopen("out.txt","w",stdout);
 	int n,m,i,j,a,b;
 	cin>>n>>m;
 	
@@ -87,7 +87,10 @@ int main()
 			track[a]=c1;
 			track[b]=c2;
 	}
+	double modularity=0;
+	int pass=1;
 	
+	cout<<"Pass 0: "<<modularity<<endl;
 	bool flag=true;//flag to indicate a positive value of del Q for each pass
 	while(flag)
 	{
@@ -191,6 +194,7 @@ int main()
 		if(maxmod>0 && i!=pos)
 		{
 			flag=true;//shows work is done in this pass
+			modularity+=maxmod;
 			cluster c2=track[pos];
 			//updating cluster 1
 			c1.single=false;
@@ -215,9 +219,12 @@ int main()
 		}
 	}
 	
-	
+	cout<<"Pass "<<pass<<": "<<modularity<<endl;
+	pass++;
  }
+ 
  vector<int> cover(n,0);
+ 
  /*printing the vertices present in the final clusters after the algo has run, line by line*/
  	for(map<int,cluster >::iterator it=track.begin();it!=track.end();it++)
 	{
@@ -227,7 +234,6 @@ int main()
 		  cover[c.vert[j]]=i;
 		
 	}
-	
 	for(i=0;i<n;i++)
 	  cout<<i<<" "<<cover[i]<<endl;
 	  
