@@ -1,4 +1,4 @@
-/* Implementation 3 of BiLouvain Method dated 28.01.2017
+/* Implementation 4 of BiLouvain Method dated 28.01.2017
    Author: Gautam Khanna  */
 
 #include<bits/stdc++.h>
@@ -217,16 +217,20 @@ int main()
 	
 	
  }
- 
+ vector<int> cover(n,0);
  /*printing the vertices present in the final clusters after the algo has run, line by line*/
  	for(map<int,cluster >::iterator it=track.begin();it!=track.end();it++)
 	{
 		i=it->first;
 		cluster c=track[i];
 		for(j=0;j<c.vert.size();j++)
-		  cout<<c.vert[j]<<" ";
-		cout<<endl;
+		  cover[c.vert[j]]=i;
+		
 	}
+	
+	for(i=0;i<n;i++)
+	  cout<<i<<" "<<cover[i]<<endl;
+	  
 
 }
 	
