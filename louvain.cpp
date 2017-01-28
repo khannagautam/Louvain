@@ -1,4 +1,4 @@
-/* Implementation 2 of BiLouvain Method dated 28.01.2017
+/* Implementation 3 of BiLouvain Method dated 28.01.2017
    Author: Gautam Khanna  */
 
 #include<bits/stdc++.h>
@@ -16,16 +16,16 @@ struct cluster
 
 /*Input format : 1. Enter number of vertices and edges
 				 2. Enter the colour of n vertices. 1- red, 2-blue
-				 3. Enter the edge list
+				 3. Enter the edge list(0-indexed)
 				 
 */
 
-/* Please note that the code assumes all the vertices in the edge list should lie between 1 and n*/
+/* Please note that the code assumes all the vertices in the edge list should lie between 0 and n-1*/
 
 int main()
 {
-	freopen("in.txt","r",stdin);
-	freopen("out.txt","w",stdout);
+//	freopen("in.txt","r",stdin);
+//	freopen("out.txt","w",stdout);
 	int n,m,i,j,a,b;
 	cin>>n>>m;
 	
@@ -39,15 +39,15 @@ int main()
 	
 	map<int,cluster> track;//map to store the active clusters
 	
-	vector<int> parent(n+1);//vector storing the id which is the supernode of that cluster
+	vector<int> parent(n);//vector storing the id which is the supernode of that cluster
 	
-	vector<int> colour(n+1);
+	vector<int> colour(n);
 	int c=0;//stores the colour entered by user
 	
 	/* Taking the colours of the n vertices as input
 	   1 if it is red, 0 otherwise*/
 	/*creating and initializing n communities*/
-	for(i=1;i<=n;i++)
+	for(i=0;i<n;i++)
 	{
 		cin>>c;
 		colour[i]=c;
@@ -87,7 +87,10 @@ int main()
 			track[a]=c1;
 			track[b]=c2;
 	}
+	double modularity=0;
+	int pass=1;
 	
+	cout<<"Pass 0: "<<modularity<<endl;
 	bool flag=true;//flag to indicate a positive value of del Q for each pass
 	while(flag)
 	{
@@ -191,6 +194,7 @@ int main()
 		if(maxmod>0 && i!=pos)
 		{
 			flag=true;//shows work is done in this pass
+			modularity+=maxmod;
 			cluster c2=track[pos];
 			//updating cluster 1
 			c1.single=false;
@@ -215,8 +219,11 @@ int main()
 		}
 	}
 	
-	
+	cout<<"Pass "<<pass<<": "<<modularity<<endl;
+	pass++;
  }
+ 
+ vector<int> cover(n,0);
  
  /*printing the vertices present in the final clusters after the algo has run, line by line*/
  	for(map<int,cluster >::iterator it=track.begin();it!=track.end();it++)
@@ -224,10 +231,12 @@ int main()
 		i=it->first;
 		cluster c=track[i];
 		for(j=0;j<c.vert.size();j++)
-		  cout<<c.vert[j]<<" ";
-		cout<<endl;
+		  cover[c.vert[j]]=i;
+		
 	}
+	for(i=0;i<n;i++)
+	  cout<<i<<" "<<cover[i]<<endl;
+	  
 
 }
 	
-
