@@ -1,4 +1,4 @@
-/* Implementation 3 of BiLouvain Method dated 28.01.2017
+/* Implementation 5 of BiLouvain Method dated 29.01.2017
    Author: Gautam Khanna  */
 
 #include<bits/stdc++.h>
@@ -22,10 +22,22 @@ struct cluster
 
 /* Please note that the code assumes all the vertices in the edge list should lie between 0 and n-1*/
 
+
+//trying something close to path compression
+int getParent(int v,vector<int>& parent)
+{
+	//returns id of the parent cluster
+	if(parent[v]==v)
+	  return v;
+	
+	return parent[v]=getParent(parent[v],parent);
+}
+
+
 int main()
 {
-//	freopen("in.txt","r",stdin);
-//	freopen("out.txt","w",stdout);
+	//freopen("in.txt","r",stdin);
+	//freopen("out.txt","w",stdout);
 	int n,m,i,j,a,b;
 	cin>>n>>m;
 	
@@ -109,21 +121,22 @@ int main()
 			/* Going through all the neighbours of cluster i and finding the modularity value*/		
 			for(map<int,pair<int,int> >::iterator j=adj[i].begin();j!=adj[i].end();j++)
 			{
+				
+				int p=getParent(j->first,parent);
+			 	//p- parent id of the community
+			
+			
 				//if neighbour part of the same cluster
-				if(parent[j->first]==i) 
+				if(p==i) 
 			 		continue;
 			 		
+			 	
 			 	//if neighbour's community has already been visited
-				if(done[parent[j->first]]>0)
+				if(done[p]>0)
 			 		continue;
 			
 				
-				int p=j->first;
-				while(parent[p]!=p)
-				 p=parent[p];
-			 
-			 	//p- parent id of the community
-				done[p]++;//updating the done map so that this cluster is not repeated again
+			 	done[p]++;//updating the done map so that this cluster is not repeated again
 				
 				int deg= adj[i][p].first+adj[i][p].second;
 				//deg= weight of edge between i and p
