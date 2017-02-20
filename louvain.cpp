@@ -1,4 +1,4 @@
-/* Implementation 5 of BiLouvain Method dated 29.01.2017
+/* Implementation 6 of BiLouvain Method dated 20.02.2017
    Author: Gautam Khanna  */
 
 #include<bits/stdc++.h>
@@ -10,6 +10,7 @@ struct cluster
 	vector<int> vert;
 	//list of vertices in the community
 	int blue,red,self;
+	
 	//to store the degree of red and blue and self loops of the community
 	bool single;
 };
@@ -249,7 +250,38 @@ int main()
 	}
 	for(i=0;i<n;i++)
 	  cout<<i<<" "<<cover[i]<<endl;
-	  
+	
+	for(map<int,cluster >::iterator it=track.begin();it!=track.end();it++)
+	{
+		i=it->first;
+		cluster c=track[i];
+		int rctr,bctr;
+		rctr=bctr=0;
+		cout<<"Cluster "<<i<<": "<<endl;
+		cout<<"Vertices in this cluster :"<<endl;
+		for(j=0;j<c.vert.size();j++)
+		{
+			if(colour[c.vert[j]]==1)
+			{
+				cout<<c.vert[j]<<"-> Red"<<endl;
+				rctr++;
+			}
+			else
+			{
+				
+				cout<<c.vert[j]<<"-> Blue"<<endl;
+				bctr++;
+			}
+			
+		}
+		double dens= c.self*1.0;
+		if(rctr==0 || bctr==0)
+		  dens=0;
+		else
+		dens/=(rctr*bctr);
+		cout<<"Edge density of this cluster = "<<dens<<endl;
+		cout<<endl<<endl;
+	}
 
 }
 	
