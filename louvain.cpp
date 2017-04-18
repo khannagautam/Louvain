@@ -1,5 +1,5 @@
 /* Implementation 6 of BiLouvain Method dated 20.02.2017
-   Author: Gautam Khanna  */
+   Author: Gautam Khanna and Mohit Baid  */
 
 #include<bits/stdc++.h>
 using namespace std;
