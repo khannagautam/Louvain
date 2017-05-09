@@ -3,7 +3,7 @@
 
 
 /*Input format : 1. Enter number of vertices and edges
-		 2. Enter the edge list(0-indexed). Each pair of edges should have a weight between them attached.
+		 2. Enter the edge list(0-indexed)
 		 3. 1 if you want the code to read the label names from "label.txt", 0 otherwise
 
 
@@ -96,9 +96,10 @@ int main()
 	unordered_map<int,cluster> track;//unordered_map to store the active clusters
 
 	vector<int> parent(n);//vector storing the id which is the supernode of that cluster
-	char label[n][500];		//for cluster labels
+	string label[n];		//for cluster labels
+	cout << "\nn = " << n << endl;
 	vector<int> colour(n);
-	int c=0;//stores the colour entered by user
+	// int c=0;//stores the colour entered by user
 
 	/*creating and initializing n communities*/
 	for(i=0;i<n;i++)
@@ -160,13 +161,17 @@ int main()
 	double modularity=0;
 	int pass=1;
 
-	cout<<"Enter 1 to give node labels, else press any other number\n";
-	cin>>fl;	// 1 To indicate node labels available 
+	// cout<<"Enter 1 to give node labels, else press any other number\n";
+	// cin>>fl;	// 1 To indicate node labels available 
+	fl = 1;
 	if(fl==1)		
 	{
 			freopen("label.txt","r",stdin);
 			for(i=0;i<n;i++)
+			{
 				cin>>label[i];
+				cout << "label: " << label[i] << endl;
+			}
 	}
 
 
@@ -347,15 +352,25 @@ int main()
 		  cover[c.vert[j]]=i;
 
 	}
-	freopen("cover.txt","w",stdout);
+
+	// Make directory 
+	if (system("mkdir clusters") != 0)
+	{
+		system("rm -rf clusters");
+		system("mkdir clusters");
+	}
+	///////////////
+
+	freopen("./clusters/cover.txt","w",stdout);
 	for(i=0;i<n;i++)
 	  cout<<i<<" "<<cover[i]<<endl;
 
 	for(unordered_map<int,cluster >::iterator it=track.begin();it!=track.end();it++)
 	{
 		i=it->first;
-		stringstream ss;	ss<<i;
-		string filename=ss.str();
+		stringstream ss;	
+		ss << i;
+		string filename = "./clusters/" + ss.str();
 		filename.append(".txt");
 		freopen(filename.c_str(),"w",stdout);
 		cluster c=track[i];
@@ -363,13 +378,14 @@ int main()
 		rctr=bctr=0;
 		cout<<"Cluster "<<i<<": "<<endl;
 		cout<<"Vertices in this cluster : "<<c.vert.size()<<endl;
+		// fl = 1;
 		for(j=0;j<c.vert.size();j++)
 		{
 			if(colour[c.vert[j]]==1)
 			{
 				cout<<c.vert[j];
 				if(fl==1)
-					cout<<" "<<label[i]<<" -> Red"<<endl;
+					cout<<" "<<label[c.vert[j]]<<" -> Red"<<endl;
 				else
 					cout<<"-> Red"<<endl;	
 				rctr++;
@@ -379,7 +395,7 @@ int main()
 				
 				cout<<c.vert[j];
 				if(fl==1)
-					cout<<" "<<label[i]<<"-> Blue"<<endl;
+					cout<<" "<<label[c.vert[j]]<<"-> Blue"<<endl;
 				else
 					cout<<"-> Blue"<<endl;
 				bctr++;
