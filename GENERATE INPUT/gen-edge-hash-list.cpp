@@ -6,7 +6,8 @@ int main()
 	map< pair  < string,string > ,int> mp1,mp2;
 	long long int c=0;
 	int m=255506,i,flag;
-	string s,t,p,u,temp;
+	string s,t,p,u,v,temp;
+	getline(cin,temp);
 	while(m--)
 	{
 		getline(cin,temp);
@@ -22,11 +23,13 @@ int main()
 				if(flag==0)			s+=temp[i];
 				else if(flag==1)	t+=temp[i];	
 				else if(flag==2)	p+=temp[i];
-				else				u+=temp[i];
+				else if(flag==3)	u+=temp[i];
+				else				v+=temp[i];
 			}
 			if(temp[i]=='"')
 			{
-				cout<<255506-m<<endl;
+				cout<<"A"<<255506-m<<endl;
+				cout<<temp<<endl;
 				/*for(int hj=0;hj<=500000000;hj++)
 				{
 				}*/	
@@ -36,6 +39,7 @@ int main()
 		t=t+'\0';
 		p=p+'\0';
 		u=u+'\0';
+		v=v+'\0';
 		if(mp1.find(make_pair(s,t))==mp1.end())
 		{
 			mp1[make_pair(s,t)]=c++;
@@ -49,10 +53,14 @@ int main()
 		t.clear();
 		p.clear();
 		u.clear();
+		v.clear();
 		temp.clear();
 	}
+	//cout<<c<<endl;
 	m=255506;
+	cin.clear();
 	freopen("input.csv","r",stdin);
+	getline(cin,temp);
 	while(m--)
 	{
 		getline(cin,temp);
@@ -68,26 +76,32 @@ int main()
 				if(flag==0)			s+=temp[i];
 				else if(flag==1)	t+=temp[i];	
 				else if(flag==2)	p+=temp[i];
-				else				u+=temp[i];
+				else if(flag==3)    u+=temp[i];
+				else 				v+=temp[i];
 			}
 		}
 		s=s+'\0';
 		t=t+'\0';
 		p=p+'\0';
 		u=u+'\0';
+		v=v+'\0';
 		if(mp2.find(make_pair(p,u))==mp2.end())
 			mp2[make_pair(p,u)]=c++;
 		s.clear();
 		t.clear();
 		p.clear();
 		u.clear();
+		v.clear();
 		temp.clear();
 	}
-	//cout<<"GGDG";
+	//cout<<c<<endl;
+	//cout<<"ASD"<<endl;
 	m=255506;
+	cin.clear();
 	freopen("input.csv","r",stdin);
 	freopen("edge_list.csv","w",stdout);
 	cout<<c<<','<<"255506"<<endl;
+	getline(cin,temp);
 	while(m--)
 	{
 		getline(cin,temp);
@@ -103,18 +117,21 @@ int main()
 				if(flag==0)			s+=temp[i];
 				else if(flag==1)	t+=temp[i];	
 				else if(flag==2)	p+=temp[i];
-				else				u+=temp[i];
+				else if(flag==3)	u+=temp[i];
+				else 				v+=temp[i];
 			}
 		}
 		s=s+'\0';
 		t=t+'\0';
 		p=p+'\0';
 		u=u+'\0';
-		cout<<mp1[make_pair(s,t)]<<','<<mp2[make_pair(p,u)]<<endl;
+		v=v+'\0';
+		cout<<mp1[make_pair(s,t)]<<','<<mp2[make_pair(p,u)]<<','<<v<<endl;
 		s.clear();
 		t.clear();
 		p.clear();
 		u.clear();
+		v.clear();
 		temp.clear();
 	}
 	freopen("hash_list.csv","w",stdout);
